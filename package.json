@@ -3,12 +3,17 @@
   "displayName": "fontify",
   "description": "Change the UI font of VS Code",
   "version": "0.0.1",
+  "publisher": "mythias",
   "engines": {
     "vscode": "^1.93.0"
   },
   "categories": [
     "Other"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/myinusa/fontify"
+  },
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
