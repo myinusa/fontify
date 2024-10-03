@@ -14,11 +14,11 @@
     "commands": [
       {
         "command": "fontify.enable",
-        "title": "Change UI Font"
+        "title": "Fontify: Enable UI Font"
       },
       {
         "command": "fontify.disable",
-        "title": "Disable UI Font"
+        "title": "Fontify: Disable UI Font"
       }
     ]
   },

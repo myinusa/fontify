@@ -4,7 +4,6 @@ import * as vscode from "vscode";
 import {
   CHANGE_FONT_COMMAND,
   DISABLE_FONT_COMMAND,
-  INSIDERS_WORKBENCH_RELATIVE_PATH,
   RESOURCES_APP,
   VS_WORKBENCH_RELATIVE_PATH,
 } from "./constants";
@@ -23,23 +22,9 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 /**
- * Determines if VS Code or VS Code Insiders is running.
- * @returns 'vscode' if VS Code is running, 'vscode-insiders' if VS Code Insiders is running, or undefined if neither.
- */
-function getVSCodeVariant(): "vscode" | "vscode-insiders" | undefined {
-  const execPath = process.execPath.toLowerCase();
-  console.log("Executing path:", execPath);
-
-  if (execPath.includes("insiders")) {
-    return "vscode-insiders";
-  }
-  return "vscode";
-}
-
-/**
  * Deactivates the extension.
  */
-export function deactivate() {}
+// export function deactivate() {}
 
 
 /**
@@ -48,18 +33,17 @@ export function deactivate() {}
  */
 function getWorkbenchPath(): string {
   try {
-    const vscodeVariant = getVSCodeVariant();
-    
     if (process.env.VSCODE_WSL_EXT_LOCATION) {
       const VSCODE_CWD = process.env.VSCODE_CWD;
       const partialPath = VSCODE_CWD + RESOURCES_APP;
-      if (vscodeVariant === "vscode-insiders") {
-        return path.join(partialPath, INSIDERS_WORKBENCH_RELATIVE_PATH);
-      }
+      // if (vscodeVariant === "vscode-insiders") {
+      // return path.join(partialPath, INSIDERS_WORKBENCH_RELATIVE_PATH);
+      // }
       return path.join(partialPath, VS_WORKBENCH_RELATIVE_PATH);
     }
 
-    const basePath = path.dirname(require.main?.filename || "");
+    // eslint-disable-next-line unicorn/prefer-module
+    const basePath = path.dirname(require.main?.filename ?? "");
 
     // console.log(require);
     // console.log(process.env);
@@ -67,11 +51,6 @@ function getWorkbenchPath(): string {
     // Check if basePath is empty or undefined
     if (!basePath) {
       throw new Error("Base path is undefined or empty.");
-    }
-
-
-    if (vscodeVariant === "vscode-insiders") {
-      return path.join(basePath, INSIDERS_WORKBENCH_RELATIVE_PATH);
     }
 
     return path.join(basePath, VS_WORKBENCH_RELATIVE_PATH);
@@ -105,11 +84,12 @@ function getStyleMarkup(): string {
  * Sets the font in the workbench HTML file.
  * @param context - The extension context.
  */
-function setFont(context: vscode.ExtensionContext) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function setFont(context: vscode.ExtensionContext) {
   const font = getFont();
 
   if (!font) {
-    unsetFont();
+    await unsetFont();
     return;
   }
 
@@ -117,23 +97,23 @@ function setFont(context: vscode.ExtensionContext) {
   const styleMarkup = getStyleMarkup();
 
   if (!html.includes(styleMarkup)) {
-    const newHtml = html.replace("</head>", styleMarkup + "</head>");
-    saveWorkbenchHtml(newHtml);
-    promptRestart();
+    const _html = html.replace("</head>", styleMarkup + "</head>");
+    saveWorkbenchHtml(_html);
+    await promptRestart();
   }
 }
 
 /**
  * Unsets the font in the workbench HTML file.
  */
-function unsetFont() {
+async function unsetFont() {
   const html = getWorkbenchHtml();
   const styleMarkup = getStyleMarkup();
 
   if (html.includes(styleMarkup)) {
     const _html = html.replace(styleMarkup, "");
     saveWorkbenchHtml(_html);
-    promptRestart();
+    await promptRestart();
   }
 }
 
