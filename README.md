@@ -3,6 +3,8 @@
 
 ## Description
 
+>Only for Windows at the moment.
+
 The Fontify extension is designed to allow users to customize the font of their VS Code editor via a simple command interface. This extension allows you to change the font globally or revert it back to the default settings by using context menu commands provided within the extension's commands palette.
 
 ## Features
@@ -16,8 +18,8 @@ The Fontify extension is designed to allow users to customize the font of their 
 1. Install the Fontify extension from the VS Code marketplace.
 2. Open the Command Palette by pressing `Ctrl+Shift+P` or `Cmd+Shift+P` on macOS.
 3. Type 'Fontify' and select the appropriate command:
-   - **Change Font**: This will prompt you to enter a new font family which will then be applied globally in VS Code.
-   - **Disable Font**: This will revert the font back to its original settings as installed by default.
+   - **Fontify: Enable UI Font**: This will prompt you to enter a new font family which will then be applied globally in VS Code.
+   - **Fontify: Disable UI Font**: This will revert the font back to its original settings as installed by default.
 
 ## Configuration
 
