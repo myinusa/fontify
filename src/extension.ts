@@ -4,6 +4,7 @@ import * as vscode from "vscode";
 import {
   CHANGE_FONT_COMMAND,
   DISABLE_FONT_COMMAND,
+  INSIDERS_WORKBENCH_RELATIVE_PATH,
   RESOURCES_APP,
   VS_WORKBENCH_RELATIVE_PATH,
 } from "./constants";
@@ -26,6 +27,19 @@ export function activate(context: vscode.ExtensionContext) {
  */
 // export function deactivate() {}
 
+/**
+ * Determines if VS Code or VS Code Insiders is running.
+ * @returns 'vscode' if VS Code is running, 'vscode-insiders' if VS Code Insiders is running, or undefined if neither.
+ */
+function getVSCodeVariant(): "vscode" | "vscode-insiders" | undefined {
+  const execPath = process.execPath.toLowerCase();
+  console.log("Executing path:", execPath);
+
+  if (execPath.includes("insiders")) {
+    return "vscode-insiders";
+  }
+  return "vscode";
+}
 
 /**
  * Gets the path to the workbench HTML file.
@@ -33,12 +47,15 @@ export function activate(context: vscode.ExtensionContext) {
  */
 function getWorkbenchPath(): string {
   try {
+    const vscodeVariant = getVSCodeVariant();
+
     if (process.env.VSCODE_WSL_EXT_LOCATION) {
       const VSCODE_CWD = process.env.VSCODE_CWD;
       const partialPath = VSCODE_CWD + RESOURCES_APP;
-      // if (vscodeVariant === "vscode-insiders") {
-      // return path.join(partialPath, INSIDERS_WORKBENCH_RELATIVE_PATH);
-      // }
+      if (vscodeVariant === "vscode-insiders") {
+        // console.log("VSCODE_WSL_EXT_LOCATION:", process.env.VSCODE_WSL_EXT_LOCATION);
+        return path.join(partialPath, INSIDERS_WORKBENCH_RELATIVE_PATH);
+      }
       return path.join(partialPath, VS_WORKBENCH_RELATIVE_PATH);
     }
 
