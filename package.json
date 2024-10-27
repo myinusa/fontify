@@ -2,7 +2,7 @@
   "name": "fontify",
   "displayName": "fontify",
   "description": "Change the UI font of VS Code",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "mythias",
   "engines": {
     "vscode": "^1.93.0"
